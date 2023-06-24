@@ -22,6 +22,8 @@ app.use("/api/recetas", recetas);
 app.use("/api/tipos", tipos);
 app.use("/api/auth", authRoute )
 
+app.use(express.static(`public`))
+
 
 app.listen(app.get("PORT"), () => {
   console.log(`Server on port ${app.get("PORT")}`);

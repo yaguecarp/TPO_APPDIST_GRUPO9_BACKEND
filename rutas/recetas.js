@@ -5,6 +5,7 @@ import {
   setReceta,
   deleteReceta,
   updateReceta,
+  getRecetaByNombre,
 } from "../controladores/recetas.js";
 
 const router = express.Router();
@@ -20,6 +21,13 @@ router.get("/:id", async (req, res) => {
   if (!recetas) return res.status(404).json({ msg: "Receta no encontrada." });
   res.status(200).json(recetas);
 });
+
+router.get("/getByName/:nombre", async (req, res) => {
+  const {nombre} = req.params;
+  const receta = await getRecetaByNombre(nombre);
+  if (!receta) return res.status(404).json({msg: 'Receta no encontrada.'})
+  res.status(200).json(receta)
+})
 
 router.post("/", async (req, res) => {
   const {

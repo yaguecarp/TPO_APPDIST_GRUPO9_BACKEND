@@ -11,11 +11,38 @@ export async function getRecetas() {
   }
 }
 
+export async function getRecetaByNombre(nombre) {
+  // try {
+  //   console.log(nombre);
+  //   const conection = await sqlConnector();
+  //   const result =
+  //     await conection.query`SELECT * FROM recetas WHERE nombre LIKE "%${nombre}%"`;
+  //   if (result.recordset.length === 0) return null;
+  //   return result.recordset[0];
+  // } catch (error) {}
+
+  try {
+    const conection = await sqlConnector();
+    const result = await conection.query`SELECT * FROM recetas`;
+    let aux = result.recordset.filter((receta) =>
+      receta.nombre.toLowerCase().startsWith(nombre.toLowerCase())
+    );
+    if (aux.length == 0) {
+      aux = result.recordset.filter((receta) =>
+        receta.nombre.toLowerCase().includes(nombre.toLowerCase())
+      );
+    }
+    return aux;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getRecetasById(id) {
   try {
     const conection = await sqlConnector();
     const result =
-      await conection.query`SELECT * FROM receta WHERE idReceta = ${id}`;
+      await conection.query`SELECT * FROM recetas WHERE idReceta = ${id}`;
     if (result.recordset.length === 0) return null;
     return result.recordset[0];
   } catch (error) {}
